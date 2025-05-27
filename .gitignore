@@ -1,0 +1,19 @@
+# Carpetas de usuario/proyecto
+Proyects/
+tmp/
+imagenes_a_analizar.txt
+
+# Entornos virtuales
+venv-dashboard/
+__pycache__/
+*.pyc
+
+# Archivos de salida/autogenerados
+*.tar
+reportes_json/
+reportes_csv/
+reportes_md/
+reportes_html/
+*.log
+.DS_Store
+*.sqlite
