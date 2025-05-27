@@ -1,131 +1,148 @@
-🚢 Container Analyzer
-Container Analyzer is a fully automated solution for scanning container images for vulnerabilities (Docker/Podman) and generating interactive, professional dashboards in HTML. It’s designed for security teams, consultants, DevOps, teachers, and anyone who needs quick, visual, and actionable risk reports from container scans.
 
-🌟 Main Features
-Interactive image selection via CLI (Bash)
+# 🚢 Container Analyzer
 
-Efficient download/caching of images in global directories to avoid repeated downloads
+**Container Analyzer** is a fully automated CLI solution for scanning container images (Docker/Podman) for vulnerabilities and generating modern, interactive HTML dashboards. Designed for security teams, DevOps, consultants, educators, and anyone who needs quick, visual, and actionable container risk reports.
 
-Automated vulnerability scanning using Trivy
+---
 
-Report generation (JSON, CSV, MD, HTML) and beautiful dashboards
+## 🌟 Features
 
-Global and per-image views: charts, tables, search, export to PDF
+* **Interactive Image Selection:** Friendly CLI to pick images for analysis
+* **Efficient Caching:** Avoids repeated downloads by caching images in a global `tmp/` directory
+* **Automated Vulnerability Scanning:** Uses [Trivy](https://github.com/aquasecurity/trivy) for fast, deep scans
+* **Comprehensive Reporting:** Generates JSON, CSV, Markdown, and beautiful HTML dashboards
+* **Rich Visualization:** Global and per-image dashboards—charts, tables, search, PDF export
+* **Project-based Organization:** Each analysis lives in its own folder for easy archiving/sharing
 
-Project-based organization: each analysis has its own folder, easy to replicate or share
+---
 
-📁 Project Structure
-graphql
-Copiar
-Editar
+## 📁 Project Structure
+
+```
 container_analyzer/
-├── main.sh                     # Main orchestration script
-├── seleccion_imagenes.sh       # Interactive image selection (Bash)
-├── vulnerability_analysis.sh   # Scanning & reporting with Trivy
-├── json_unified.sh             # JSON unification
-├── dashboard_por_imagen.py     # HTML dashboard generator (Python)
-├── index_template.html         # Jinja2 HTML dashboard template
-├── requirements.txt            # Python requirements
-├── contrib/                    # Extra templates for Trivy (e.g., csv.tpl)
-├── Proyects/                   # Where all projects are created (IGNORED by git)
-├── tmp/                        # Global cache of images (IGNORED by git)
-├── venv-dashboard/             # Python virtual environment (IGNORED by git)
+├── main.sh                    # Main orchestration script
+├── seleccion_imagenes.sh      # Interactive image selection (Bash)
+├── vulnerability_analysis.sh  # Trivy-based scanning & reporting
+├── json_unified.sh            # Unifies all JSON outputs
+├── dashboard_por_imagen.py    # Generates HTML dashboard (Python)
+├── index_template.html        # Jinja2 template for the dashboard
+├── requirements.txt           # Python dependencies
+├── contrib/                   # Extra Trivy templates (e.g., csv.tpl)
+├── Proyects/                  # All analysis projects (GIT-IGNORED)
+├── tmp/                       # Global image cache (GIT-IGNORED)
+├── venv-dashboard/            # Python venv (GIT-IGNORED)
 └── README.md
-🚀 How to Use
-1. Clone the repository and enter the folder
-bash
-Copiar
-Editar
+```
+
+---
+
+## 🚀 How To Use
+
+### 1. Clone the Repository
+
+```bash
 git clone https://github.com/emigodki/container_analyzer.git
 cd container_analyzer
-2. Prepare your environment
-Ensure you have:
+```
 
-Python 3.9+
+### 2. Prepare Your Environment
 
-Podman (or Docker, but Podman is used by default)
+Make sure you have:
 
-Trivy
+* **Python 3.9+**
+* **Podman** (or Docker, but Podman is recommended)
+* **Trivy**
+* **jq**
 
-jq
+#### Example (Linux):
 
-Example for Linux:
-
-bash
-Copiar
-Editar
+```bash
 sudo apt install podman jq python3-venv
 wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.50.2_Linux-64bit.deb
 sudo dpkg -i trivy_0.50.2_Linux-64bit.deb
-3. Run the analysis
-bash
-Copiar
-Editar
+```
+
+### 3. Run an Analysis
+
+```bash
 bash main.sh
-What does the script do?
+```
 
-Asks for a project name (creates Proyects/YOUR_PROJECT)
+* Enter a project name (will create `Proyects/YOUR_PROJECT`)
+* Select images to analyze via CLI
+* The script will:
 
-Launches an interactive image selection tool
+  * Download/cache images (`tmp/`)
+  * Scan with Trivy
+  * Generate all reports and dashboards
+  * Open your dashboard automatically in your browser!
 
-Downloads/saves/caches images (in tmp/)
+### 4. View Your Dashboard
 
-Runs Trivy to scan and generate all reports
+Find your results here:
 
-Generates a modern HTML dashboard with graphs and tables
-
-Opens the dashboard automatically in your browser
-
-4. Check your results
-Find your dashboard at:
+```
 Proyects/YOUR_PROJECT/dashboard_por_imagen/index.html
+```
 
-All generated reports and outputs are stored within your project folder.
+---
 
-📊 Dashboard Content
-Global view: Pie, bar, radar, and heatmap charts for severity, month, and image
+## 📊 Dashboard Content
 
-Per-image view: Charts and interactive vulnerability tables
+* **Global View:** Pie, bar, radar, and heatmap charts for all images/severities/months
+* **Per-Image View:** Charts and interactive, filterable, exportable vulnerability tables
+* **PDF Export:** Any section can be exported to PDF
 
-Filterable/searchable/exportable tables
+---
 
-Export any section to PDF
+## ⚙️ Organization & Paths
 
-⚙️ Organization & Paths
-Proyects/ and tmp/ are at the root to make caching and sharing images/results between analyses easy.
+* `Proyects/` and `tmp/` at repo root for shared cache between projects
+* Single Python venv at root: `venv-dashboard/`
+* **Do NOT commit**: `Proyects/`, `tmp/`, or `venv-dashboard/` (they’re ignored)
 
-Global Python env (venv-dashboard/) and requirements.txt are at the root, so dependencies are not duplicated.
+---
 
-Do NOT commit anything inside Proyects/, tmp/, or venv-dashboard/.
+## 📝 Example Workflow
 
-📝 Example Workflow
-bash
-Copiar
-Editar
+```bash
 bash main.sh
-# Follow the CLI instructions
-# (project name, image selection, etc.)
-# The dashboard will open when finished
-📦 Dependencies
-Trivy
+# Follow the CLI (project name, select images, etc.)
+# When finished, your browser will open the dashboard
+```
 
-Podman (or Docker)
+---
 
-jq
+## 📦 Dependencies
 
-Python 3.9+ with:
-pandas matplotlib seaborn jinja2
+* [Trivy](https://github.com/aquasecurity/trivy)
+* [Podman](https://podman.io/) (or Docker)
+* [jq](https://stedolan.github.io/jq/)
+* **Python 3.9+** with:
 
-Install all Python deps with:
+  * pandas
+  * matplotlib
+  * seaborn
+  * jinja2
 
-nginx
-Copiar
-Editar
+Install Python requirements with:
+
+```bash
 pip install -r requirements.txt
-🙏 Credits & Contribution
-Created by @emigodki
-Pull requests and suggestions are welcome!
-Open an issue if you find a bug or have an idea.
+```
 
-🛑 License
-MIT — Free for academic and professional use.
+---
+
+## 🙏 Credits & Contribution
+
+Created by [@emigodki](https://github.com/emigodki)
+
+* Pull requests, bug reports, and feature suggestions are welcome!
+* Open an issue if you find a bug or have an idea.
+
+---
+
+## 🛑 License
+
+**MIT** — Free for academic and professional use.
+
